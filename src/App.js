@@ -1,10 +1,11 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
+import DonationForm from './DonationForm';
 
 function App() {
   return (
     <div className="App">
-      <Button variant="contained">Hello world</Button>
+      <h2>Donation Inventory Manager</h2>
+      <DonationForm />
     </div>
   );
 }
