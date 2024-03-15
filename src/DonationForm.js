@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 
 /*
@@ -21,9 +23,16 @@ export default function DonationForm() {
   const [formData, setFormData] = useState({
     name: '',
     type: 'money',
-    quantity: '',
+    amount: '',
     time: ''
   });
+
+  // adorn the amount field with an emoji based on the selected donation type
+  const quantityFieldLabels = {
+    'money': '💸',
+    'food': '🥫',
+    'clothes': '👚'
+  }
 
   // dynamic input setter for each field in the form
   const handleInputChange = (e) => {
@@ -50,19 +59,27 @@ export default function DonationForm() {
           label="Name"
           sx={{ m: 1, width: "25ch" }}
         />
-        <TextField 
+        <TextField
           name="type"
-          value={formData.type}
-          onChange={handleInputChange}
+          defaultValue="money"
+          select
           label="Type"
-          sx={{ m: 1, width: "25ch" }}
-        />
-        <TextField 
-          name="quantity"
-          value={formData.quantity}
           onChange={handleInputChange}
-          label="Quantity"
           sx={{ m: 1, width: "25ch" }}
+        >
+          <MenuItem value="money">Money</MenuItem>
+          <MenuItem value="food">Food</MenuItem>
+          <MenuItem value="clothes">Clothes</MenuItem>
+        </TextField>
+        <TextField 
+          name="amount"
+          value={formData.amount}
+          onChange={handleInputChange}
+          label="Amount"
+          sx={{ m: 1, width: "25ch" }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">{quantityFieldLabels[formData.type]}</InputAdornment>,
+          }}
         />
         <Button type="submit">Submit</Button>
       </FormControl>
