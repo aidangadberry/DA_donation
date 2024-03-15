@@ -27,6 +27,8 @@ export default function DonationForm() {
     time: ''
   });
 
+  const [errors, setErrors] = useState({});
+
   // adorn the amount field with an emoji based on the selected donation type
   const quantityFieldLabels = {
     'money': '💸',
@@ -43,9 +45,34 @@ export default function DonationForm() {
     })
   }
 
-  // validation to be added
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validationErrors = {};
+
+    // validation for name field
+    if (!formData.name.trim()) {
+      validationErrors.name = 'Name is required';
+    }
+
+    // this validation shouldn't get triggered since the type field
+    // is a dropdown, but it's included just in case to validate
+    // that it is an acceptable donation type
+    if (!['food', 'money', 'clothes'].includes(formData.type)) {
+      validationErrors.type = 'We only accept food, money, or clothes';
+    }
+
+    // validation for amount field (a valid number greater than 0)
+    const amount = parseFloat(formData.amount);
+    if (isNaN(amount) || amount <= 0) {
+      validationErrors.amount = 'Please enter a valid number';
+    }
+
+    // set the errors state and only go to process form if no errors
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+
     console.log(formData);
   }
 
@@ -57,6 +84,8 @@ export default function DonationForm() {
           value={formData.name}
           onChange={handleInputChange}
           label="Name"
+          error={!!errors.name}
+          helperText={!!errors.name ? errors.name : ""}
           sx={{ m: 1, width: "25ch" }}
         />
         <TextField
@@ -76,6 +105,8 @@ export default function DonationForm() {
           value={formData.amount}
           onChange={handleInputChange}
           label="Amount"
+          error={!!errors.amount}
+          helperText={!!errors.amount ? errors.amount : ""}
           sx={{ m: 1, width: "25ch" }}
           InputProps={{
             startAdornment: <InputAdornment position="start">{quantityFieldLabels[formData.type]}</InputAdornment>,
