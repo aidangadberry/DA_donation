@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
     errors, if passes, commit the donation and redirect back to dashboard
 */
 
-export default function DonationForm() {
+export default function DonationForm({ addDonation }) {
 
   // initialize the state for a donation to be submitted by this form
   const [formData, setFormData] = useState({
@@ -73,7 +73,8 @@ export default function DonationForm() {
       return;
     }
 
-    console.log(formData);
+    const currentTime = formData.time ? formData.time : new Date().toLocaleString();
+    addDonation({ ...formData, time: currentTime });
   }
 
   return (
