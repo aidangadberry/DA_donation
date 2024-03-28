@@ -17,26 +17,29 @@ import Button from '@mui/material/Button';
     errors, if passes, commit the donation and redirect back to dashboard
 */
 
-export default function DonationForm({ addDonation }) {
-
-  // initialize the state for a donation to be submitted by this form
-  const [formData, setFormData] = useState({
+export default function DonationForm({ onSubmit, initialData }) {
+  // An empty donation object to set the state if there is no initialData prop
+  const emptyDonation = {
     name: '',
     type: 'money',
     amount: '',
     time: ''
-  });
+  };
 
+  // Initialize state for the donation form
+  const [formData, setFormData] = useState(initialData || emptyDonation);
+
+  // Initialize state for form validation errors
   const [errors, setErrors] = useState({});
 
-  // adorn the amount field with an emoji based on the selected donation type
+  // Define labels for the quantity field based on the selected donation type
   const quantityFieldLabels = {
     'money': '💸',
     'food': '🥫',
     'clothes': '👚'
   }
 
-  // dynamic input setter for each field in the form
+  // Handle input change for form fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -45,36 +48,43 @@ export default function DonationForm({ addDonation }) {
     })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Validate the form
+  const validateForm = () => {
     const validationErrors = {};
 
-    // validation for name field
+    // Validation for name field
     if (!formData.name.trim()) {
       validationErrors.name = 'Name is required';
     }
 
-    // this validation shouldn't get triggered since the type field
-    // is a dropdown, but it's included just in case to validate
-    // that it is an acceptable donation type
+    // Validation for type field
     if (!['food', 'money', 'clothes'].includes(formData.type)) {
       validationErrors.type = 'We only accept food, money, or clothes';
     }
 
-    // validation for amount field (a valid number greater than 0)
+    // Validation for amount field (a valid number greater than 0)
     const amount = parseFloat(formData.amount);
     if (isNaN(amount) || amount <= 0) {
       validationErrors.amount = 'Please enter a valid number';
     }
 
-    // set the errors state and only go to process form if no errors
     setErrors(validationErrors);
-    if (Object.keys(validationErrors).length > 0) {
-      return;
-    }
 
-    const currentTime = formData.time ? formData.time : new Date().toLocaleString();
-    addDonation({ ...formData, time: currentTime });
+    // Return true if there are no validation errors, false otherwise
+    return (Object.keys(validationErrors).length === 0);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate form and proceed if valid
+    if (validateForm()) {
+      // Append current time to the form data if it does not exist
+      const currentTime = formData.time || new Date().toLocaleString();
+      onSubmit({ ...formData, time: currentTime });
+      // Reset form data to empty donation object
+      setFormData(emptyDonation);
+    }
   }
 
   return (
@@ -91,7 +101,7 @@ export default function DonationForm({ addDonation }) {
         />
         <TextField
           name="type"
-          defaultValue="money"
+          value={formData.type}
           select
           label="Type"
           onChange={handleInputChange}
@@ -110,7 +120,9 @@ export default function DonationForm({ addDonation }) {
           helperText={!!errors.amount ? errors.amount : ""}
           sx={{ m: 1, width: "25ch" }}
           InputProps={{
-            startAdornment: <InputAdornment position="start">{quantityFieldLabels[formData.type]}</InputAdornment>,
+            startAdornment: <InputAdornment position="start">
+              {quantityFieldLabels[formData.type]}
+            </InputAdornment>,
           }}
         />
         <Button type="submit">Submit</Button>
