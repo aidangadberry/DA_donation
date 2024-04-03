@@ -125,7 +125,7 @@ export default function DonationForm({ onSubmit, initialData }) {
             </InputAdornment>,
           }}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" variant="outlined" sx={{ m: 1 }}>Submit</Button>
       </FormControl>
     </form>
   )
