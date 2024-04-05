@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import DonationTable from './DonationTable';
 import DonationModal from './DonationModal';
+import donationSeeds from './donationSeeds';
 
 function App() {
   // State for managing donations
-  const [donations, setDonations] = useState([]);
+  const [donations, setDonations] = useState(donationSeeds);
 
   // State for managing the modal open/close status
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +39,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <Box className="App" sx={{ display: 'flex', gap: '10px' }}>
       <h2>Donation Inventory Manager</h2>
       <Button variant="contained" onClick={() => setIsModalOpen(true)}>
         Add New Donation
@@ -54,7 +56,7 @@ function App() {
         handleClose={handleCloseModal}
         onSubmit={processDonation}
       />
-    </div>
+    </Box>
   );
 }
 
