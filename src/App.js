@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import DonationTable from './DonationTable';
 import DonationModal from './DonationModal';
 import DonorWidget from './DonorWidget';
+import DonationStatisticsWidget from './DonationStatisticsWidget';
 import donationSeeds from './donationSeeds';
 
 function App() {
@@ -69,6 +70,9 @@ function App() {
         isOpen={isModalOpen} 
         handleClose={handleCloseModal}
         onSubmit={processDonation}
+      />
+      <DonationStatisticsWidget
+        donations={donations}
       />
     </Box>
   );
