@@ -1,26 +1,8 @@
 import React from 'react'
+import { donorStatistics } from './donationUtil';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-
-// Helper function to aggregate the statistics of donations
-const donorStatistics = (donations) => {
-  let totalMoneyDonated = 0;
-  let foodItemCount = 0;
-  let clothingItemCount = 0;
-
-  donations.forEach((donation) => {
-    if (donation.type === 'money') {
-      totalMoneyDonated += parseFloat(donation.amount);
-    } else if (donation.type === 'clothes') {
-      clothingItemCount += parseFloat(donation.amount);
-    } else if (donation.type === 'food') {
-      foodItemCount += parseFloat(donation.amount);
-    }
-  })
-
-  return { totalMoneyDonated, foodItemCount, clothingItemCount }
-}
 
 export default function DonorWidget({ selectedDonor, donations }) {
   if (!selectedDonor) {
