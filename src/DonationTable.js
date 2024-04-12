@@ -30,12 +30,13 @@ const headCells = [
   },
 ];
 
-export default function DonationTable({ donations, onEditDonation }) {
+export default function DonationTable({ donations, onEditDonation, selectedDonation, onSelectDonation }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [orderBy, setOrderBy] = useState('time');
   const [order, setOrder] = useState('desc');
 
+  // All of this logic is for handling pagination, as shown by MUI's pagination example code
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -95,9 +96,15 @@ export default function DonationTable({ donations, onEditDonation }) {
           <TableBody>
             {sortedDonations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((donation, index) => (
-                <TableRow key={index}>
+                <TableRow 
+                  onClick={() => onSelectDonation(donation)} 
+                  key={index}
+                  selected={donation === selectedDonation}
+                >
                   <TableCell>{donation.name}</TableCell>
-                  <TableCell sx={{ textTransform: "capitalize" }}>{donation.type}</TableCell>
+                  <TableCell sx={{ textTransform: "capitalize" }}>
+                    {donation.type}
+                  </TableCell>
                   <TableCell>{donation.amount}</TableCell>
                   <TableCell>{donation.time}</TableCell>
                   <TableCell>
