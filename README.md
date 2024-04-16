@@ -1,19 +1,29 @@
-# DA_donation
-Coding Challenge of a donation inventory manager application
+# Digital Aid Donation Inventory Manager
 
+This is a simple web application for managing donations.
 
-# Getting Started with Create React App
+## Features
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- **Add New Donation**: Easily add new donations to the inventory.
+- **Edit Donation**: Edit existing donations with ease.
+- **Sortable Table**: Sort donations by name, type, amount, or time.
+- **Pagination**: Navigate through multiple pages of donations.
+- **Statistics Widgets**: View statistics on total money, food, and clothing items donated by a donor or as a whole.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
-
-### `npm start`
+1. **Clone the repository**: Clone the repository to your local machine using Git:
+  ```bash
+  git clone https://github.com/aidangadberry/DA_donation.git
+  ```
+2. **Navigate to the project directory**: Change to the project directory:
+  ```bash
+  cd DA_donation
+  ```
+3. **Install dependencies**: Use npm to install the project dependencies:
+  ```bash
+  npm install && npm start
+  ```
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
